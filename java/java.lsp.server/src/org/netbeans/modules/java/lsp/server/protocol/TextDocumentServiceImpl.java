@@ -33,7 +33,6 @@ import com.sun.source.util.TreePath;
 import com.sun.source.util.TreePathScanner;
 import com.sun.source.util.Trees;
 import com.vladsch.flexmark.html2md.converter.FlexmarkHtmlConverter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URL;
@@ -105,7 +104,6 @@ import org.eclipse.lsp4j.CompletionList;
 import org.eclipse.lsp4j.CompletionParams;
 import org.eclipse.lsp4j.ConfigurationItem;
 import org.eclipse.lsp4j.ConfigurationParams;
-import org.eclipse.lsp4j.CreateFile;
 import org.eclipse.lsp4j.DefinitionParams;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
@@ -240,9 +238,6 @@ import org.netbeans.modules.refactoring.spi.RefactoringElementImplementation;
 import org.netbeans.modules.refactoring.spi.Transaction;
 import org.netbeans.api.lsp.StructureElement;
 import org.netbeans.modules.editor.indent.api.Reformat;
-import static org.netbeans.modules.java.editor.base.semantic.SemanticHighlighterBase.JAVA_INLINE_HINT_CHAINED_TYPES;
-import static org.netbeans.modules.java.editor.base.semantic.SemanticHighlighterBase.JAVA_INLINE_HINT_PARAMETER_NAME;
-import static org.netbeans.modules.java.editor.base.semantic.SemanticHighlighterBase.JAVA_INLINE_HINT_VAR_TYPE;
 import org.netbeans.modules.java.lsp.server.URITranslator;
 import org.netbeans.modules.parsing.impl.SourceAccessor;
 import org.netbeans.spi.editor.hints.ErrorDescription;
@@ -265,11 +260,8 @@ import org.openide.util.BaseUtilities;
 import org.openide.util.Exceptions;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
-import org.openide.util.NbPreferences;
 import org.openide.util.Pair;
 import org.openide.util.RequestProcessor;
-import org.openide.util.Union2;
-import org.openide.util.Utilities;
 import org.openide.util.WeakSet;
 import org.openide.util.lookup.Lookups;
 import org.openide.util.lookup.ProxyLookup;
@@ -2634,17 +2626,17 @@ public class TextDocumentServiceImpl implements TextDocumentService, LanguageCli
                 try {
                     js.runUserActionTask(cc -> {
                         cc.toPhase(JavaSource.Phase.RESOLVED);
-                        Preferences preferences = NbPreferences.root().node("/org/netbeans/modules/java/editor/InlineHints/default");
-                        preferences.putBoolean(JAVA_INLINE_HINT_PARAMETER_NAME, enabled.contains("parameter"));
-                        preferences.putBoolean(JAVA_INLINE_HINT_CHAINED_TYPES, enabled.contains("chained"));
-                        preferences.putBoolean(JAVA_INLINE_HINT_VAR_TYPE, enabled.contains("var"));
+                        SemanticHighlighterBase.Settings settings =
+                                new SemanticHighlighterBase.Settings(enabled.contains("parameter"),
+                                                                     enabled.contains("chained"),
+                                                                     enabled.contains("var"));
                         Document doc = cc.getSnapshot().getSource().getDocument(true);
                         int start = Utils.getOffset((StyledDocument) doc, params.getRange().getStart());
                         int end = Utils.getOffset((StyledDocument) doc, params.getRange().getEnd());
                         new SemanticHighlighterBase() {
                             @Override
                             protected boolean process(CompilationInfo info, Document doc) {
-                                process(info, doc, new ErrorDescriptionSetter() {
+                                process(info, doc, settings, new ErrorDescriptionSetter() {
                                     @Override
                                     public void setHighlights(Document doc, Collection<Pair<int[], ColoringAttributes.Coloring>> highlights, Map<int[], String> preText) {
                                         for (Entry<int[], String> e : preText.entrySet()) {
