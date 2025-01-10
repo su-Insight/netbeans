@@ -25,15 +25,19 @@
     <localizing-bundle>org.netbeans.libs.graaljs.Bundle</localizing-bundle>
     <volume>
         <type>classpath</type>
-        <resource>jar:nbinst://org.netbeans.libs.graaljs/modules/ext/js-20.3.0.jar!/</resource>
-        <resource>jar:nbinst://org.netbeans.libs.graaljs/modules/ext/js-launcher-20.3.0.jar!/</resource>
-        <resource>jar:nbinst://org.netbeans.libs.graaljs/modules/ext/regex-20.3.0.jar!/</resource>
-        <resource>jar:nbinst://org.netbeans.libs.graaljs/modules/ext/icu4j-67.1.jar!/</resource>
+        <resource>jar:nbinst://org.netbeans.libs.graaljs/modules/ext/js-language-24.0.0.jar!/</resource>
+        <resource>jar:nbinst://org.netbeans.libs.graaljs/modules/ext/regex-24.0.0.jar!/</resource>
+        <resource>jar:nbinst://org.netbeans.libs.graaljs/modules/ext/icu4j-24.0.0.jar!/</resource>
+        <resource>jar:nbinst://org.netbeans.libs.graaljs/modules/ext/js-launcher-24.0.0.jar!/</resource>
 
-        <resource>jar:nbinst://org.netbeans.libs.graalsdk/modules/ext/graal-sdk-20.3.0.jar!/</resource>
-        <resource>jar:nbinst://org.netbeans.libs.graalsdk/modules/ext/launcher-common-20.3.0.jar!/</resource>
-
-        <resource>jar:nbinst://org.netbeans.libs.truffleapi/modules/ext/truffle-api-20.3.0.jar!/</resource>
+        <resource>jar:nbinst://org.netbeans.libs.graalsdk/modules/ext/graal-sdk-24.0.0.jar!/</resource>
+        <resource>jar:nbinst://org.netbeans.libs.graalsdk/modules/ext/launcher-common-24.0.0.jar!/</resource>
+        
+        <resource>jar:nbinst://org.netbeans.libs.graalsdk/modules/ext/collections-24.0.0.jar!/</resource>
+        <resource>jar:nbinst://org.netbeans.libs.graalsdk/modules/ext/polyglot-24.0.0.jar!/</resource>
+        <resource>jar:nbinst://org.netbeans.libs.graalsdk/modules/ext/truffle-api-24.0.0.jar!/</resource>
+        <resource>jar:nbinst://org.netbeans.libs.graalsdk/modules/ext/truffle-runtime-24.0.0.jar!/</resource>
+        <resource>jar:nbinst://org.netbeans.libs.graalsdk/modules/ext/truffle-compiler-24.0.0.jar!/</resource>
     </volume>
     <volume>
         <type>src</type>
@@ -45,8 +49,8 @@
         <property>
             <name>maven-dependencies</name>
             <value>
-                org.graalvm.js:js:20.3.0:jar
-                org.graalvm.js:js-launcher:20.3.0:jar
+                org.graalvm.js:js:23.0.3:jar
+                org.graalvm.js:js-launcher:23.0.3:jar
             </value>
         </property>
     </properties>
